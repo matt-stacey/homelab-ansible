@@ -1,2 +1,6 @@
 # Virtual Environment
 ansible_venv/
+ansible.log
+
+# Linux
+*.swp
