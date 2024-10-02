@@ -1,0 +1,35 @@
+---
+- name: Prepare Proxmox host
+  hosts: pve
+  vars:
+      pip_packages:
+        - python3-pip
+        - build-essential
+  tasks:
+    - name: disable enterprise repos
+      apt_repository:
+        repo: 'deb https://enterprise.proxmox.com/debian/pve bookworm pve-enterprise'
+        state: absent
+    - name: switch to community repos
+      apt_repository:
+        repo: 'deb http://download.proxmox.com/debian/pve bookworm pve-no-subscription'
+        state: present
+    - name: Update all packages to the latest version
+      apt:
+        upgrade: dist
+    - name: Install pip packages
+      apt:
+        name: "{{ pip_packages }}"
+        state: latest
+    - name: Install virtualenv
+      apt:
+        name: virtualenv
+        state: latest
+    - name: Install proxmoxer
+      apt:
+        name: python3-proxmoxer
+        state: latest
+    - name: Install requests
+      apt:
+        name: python3-requests
+        state: latest
