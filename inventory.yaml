@@ -4,3 +4,8 @@ proxmox:
   hosts:
     pve:
       ansible_host: 192.168.0.000
+
+containers:
+  hosts:
+    test.container:
+      ansible_host: 192.168.0.123

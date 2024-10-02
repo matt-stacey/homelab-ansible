@@ -18,5 +18,5 @@
         memory: 1024
         swap: 1024
         nameserver: 8.8.8.8
-        netif: '{"net0":"name=eth0,ip=192.168.0.175/24,bridge=vmbr0"}'
+        netif: '{"net0":"name=eth0,ip=192.168.0.123/24,bridge=vmbr0"}'
         state: present
