@@ -31,3 +31,6 @@ Ansible code for a Proxmox-based Home Lab
 ### Are all of the hosts connected properly?
 After updating `inventory.yaml` with the appropriate hosts, run
 - `ANSIBLE_USER=ansible; ansible -u $ANSIBLE_USER proxmox -m ping`
+
+### Run a playbook
+`ANSIBLE_USER=ansible; ansible-playbook playbooks/create_container.yaml -u $ANSIBLE_USER`

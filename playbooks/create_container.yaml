@@ -1,0 +1,22 @@
+---
+- name: Create new LXC container in Proxmox
+  hosts: proxmox
+  tasks:
+    - name: Create LXC Container
+      proxmox:
+        vmid: 123  # Specifying Container ID
+        node: pve  # Name of Proxmox host
+        api_user: ansible_pm@pam  # Proxmox user, -u ANSIBLE_USER on command line
+        api_password: ansible  # Password in plaintext !!!
+        api_host: pve
+        hostname: test.container
+        password: P@ssw0rd  # Password in plaintext !!!
+        ostemplate: "zfs-proxmox:vztmpl/ubuntu-22.04-standard_22.04-1_amd64.tar.zst"
+        cores: 1
+        cpus: 1
+        disk: "zfs-proxmox:8"  # disk_volume key was unsuccessful
+        memory: 1024
+        swap: 1024
+        nameserver: 8.8.8.8
+        netif: '{"net0":"name=eth0,ip=192.168.0.175/24,bridge=vmbr0"}'
+        state: present

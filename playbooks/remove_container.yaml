@@ -1,0 +1,12 @@
+---
+- name: Remove an LXC container from Proxmox
+  hosts: proxmox
+  tasks:
+    - name: Remove LXC Container
+      proxmox:
+        vmid: 123  # Specifying Container ID
+        node: pve  # Name of Proxmox host
+        api_user: ansible_pm@pam  # Proxmox user, -u ANSIBLE_USER on command line
+        api_password: ansible  # Password in plaintext !!!
+        api_host: pve
+        state: absent
