@@ -5,12 +5,16 @@ Ansible code for a Proxmox-based Home Lab
 - python3
 - python3-venv
 
-## Virtual Environment Configuration
-- Create the virtual environment
+## Local Virtual Environment Configuration
+- Create the local virtual environment
     - `python3 -m venv ansible_venv`
     - `source ansible_venv/bin/activate`
     - `python -m pip install --upgrade pip`
     - `python -m pip install -r requirements.txt`
+
+## Configure Proxmox Host
+To install the necessary packages and configuration on the Proxmox host (requires local SSH key to be linked to `root` on the Proxmox host):
+`ansible-playbook playbooks/prepare_host.yaml -u root`
 
 ## Ansible Usage
 
