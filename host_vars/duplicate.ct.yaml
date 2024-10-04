@@ -1,0 +1,7 @@
+---
+
+vmid: 124
+memory: 1024
+swap: 1024
+password: p@SSW0rd  # Password in plaintext !!!
+netif: '{"net0":"name=eth0,ip=192.168.0.124/24,bridge=vmbr0"}'
