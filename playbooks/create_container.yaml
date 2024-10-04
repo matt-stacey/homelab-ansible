@@ -4,25 +4,25 @@
   tasks:
     - name: Create LXC Containers
       proxmox:
-        api_host: pve
-        api_user: ansible_pm@pam  # Proxmox user, -u ANSIBLE_USER on command line
-        api_password: ansible  # Password in plaintext !!!
-        node: pve  # Name of Proxmox host
-        hostname: test.container
-        vmid: 123  # Specifying Container ID
-        password: P@ssw0rd  # Password in plaintext !!!
-        disk: "zfs-proxmox:8"  # disk_volume key was unsuccessful
-        cores: 1
-        cpus: 1
-        memory: 1024
-        swap: 1024
-        ostemplate: "zfs-proxmox:vztmpl/ubuntu-22.04-standard_22.04-1_amd64.tar.zst"
-        #searchdomain
-        nameserver: 8.8.8.8
-        netif: '{"net0":"name=eth0,ip=192.168.0.123/24,bridge=vmbr0"}'
-        #pubkey
-        #onboot
-        state: present
+        api_host: '{{ api_host }}'
+        api_user: '{{ api_user }}'
+        api_password: '{{ api_password }}'
+        node: '{{ node }}'
+        hostname: '{{ hostvars[item]["inventory_hostname"] }}'
+        vmid: '{{ hostvars[item].vmid }}'  # Must be specified in host_vars/<hostname>.yaml
+        password: '{{ hostvars[item].password | default(defaults.password) }}'
+        disk: '{{ hostvars[item].disk | default(defaults.disk) }}'
+        cores: '{{ hostvars[item].cores | default(defaults.cores) }}'
+        cpus: '{{ hostvars[item].cpus | default(defaults.cpus) }}'
+        memory: '{{ hostvars[item].memory | default(defaults.memory) }}'
+        swap: '{{ hostvars[item].swap | default(defaults.swap) }}'
+        ostemplate: '{{ hostvars[item].ostemplate | default(defaults.ostemplate) }}'
+        searchdomain: '{{ hostvars[item].searchdomain | default(defaults.searchdomain) }}'
+        nameserver: '{{ hostvars[item].nameserver | default(defaults.nameserver) }}'
+        netif: '{{ hostvars[item].netif | default(defaults.netif) }}'
+        pubkey: '{{ hostvars[item].pubkey | default(defaults.pubkey) }}'
+        state: '{{ hostvars[item].state | default(defaults.state) }}'
+        onboot: '{{ hostvars[item].onboot | default(defaults.onboot) }}'
       with_items: '{{ groups["containers"] }}'  # from inventory
       loop_control:
         pause: 5
