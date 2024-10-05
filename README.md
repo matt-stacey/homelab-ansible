@@ -13,7 +13,7 @@ Ansible code for a Proxmox-based Home Lab
     - `python -m pip install -r requirements.txt`
 
 ## Configure Proxmox Host
--To install the necessary packages and configuration on the Proxmox host (requires local SSH key to be linked to `root` on the Proxmox host)
+- To install the necessary packages and configuration on the Proxmox host (requires local SSH key to be linked to `root` on the Proxmox host)
     - `ssh_keygen -t rsa` to generate a key; take note of where it is saved
     - `ssh-copy-id i ~/.ssh/id_rsa.pub root@{host}` (subsitute the key location if needed)
 
@@ -34,8 +34,8 @@ After updating `inventory.yaml` with the appropriate `ansible_host` variable, ru
     - `ANSIBLE_USER=ansible; ssh-copy-id i ~/.ssh/id_rsa.pub $ANSIBLE_USER@{host}` (subsitute the key location if needed)
 
 ### Run a playbook
-`ANSIBLE_USER=ansible; ansible-playbook playbooks/minimal.yaml -u $ANSIBLE_USER --exvtra-vars "vmid=101"`
-`ANSIBLE_USER=ansible; ansible-playbook playbooks/remove_container.yaml -u $ANSIBLE_USER --exvtra-vars "vmid=101"`
+- `ANSIBLE_USER=ansible; ansible-playbook playbooks/minimal.yaml -u $ANSIBLE_USER --exvtra-vars "vmid=101"` to add a container
+- `ANSIBLE_USER=ansible; ansible-playbook playbooks/remove_container.yaml -u $ANSIBLE_USER --exvtra-vars "vmid=101"` to remove it
 
 ## Playbooks
 
