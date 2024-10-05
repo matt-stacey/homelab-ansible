@@ -1,15 +1,25 @@
 ---
-- name: Create new LXC container in Proxmox
-  hosts: pve
+- name: Create new LXC container in Proxmox with minimal options
+  hosts: proxmox
   tasks:
     - name: Create LXC Container with minimal options
       proxmox:
-        vmid: 123  # Specifying Container ID
-        node: pve  # Name of Proxmox host
-        api_user: ansible_pm@pam  # Proxmox user, -u ANSIBLE_USER on command line
-        api_password: ansible  # Password in plaintext !!!
-        api_host: pve
-        hostname: test.container
-        password: P@ssw0rd  # Password in plaintext !!!
-        ostemplate: "zfs-proxmox:vztmpl/ubuntu-22.04-standard_22.04-1_amd64.tar.zst"
-        state: present
+        api_host: '{{ api_host }}'
+        api_user: '{{ api_user }}'
+        api_password: '{{ api_password }}'
+        node: '{{ node }}'
+        hostname: "container-{{ lookup('password', '/dev/null chars=ascii_lowercase,digits length=8') }}"  # Thanks, NetworkChuck
+        vmid: '{{ vmid }}'  # Specifying on CLI with [--extra-vars "vmid=124"]
+        password: '{{ password | default(defaults.password) }}'
+        disk: '{{ disk | default(defaults.disk) }}'
+        cores: '{{ cores | default(defaults.cores) }}'
+        cpus: '{{ cpus | default(defaults.cpus) }}'
+        memory: '{{ memory | default(defaults.memory) }}'
+        swap: '{{ swap | default(defaults.swap) }}'
+        ostemplate: '{{ ostemplate | default(defaults.ostemplate) }}'
+        searchdomain: '{{ searchdomain | default(defaults.searchdomain) }}'
+        nameserver: '{{ nameserver | default(defaults.nameserver) }}'
+        netif: '{{ netif | default(defaults.netif) }}'
+        pubkey: '{{ pubkey | default(defaults.pubkey) }}'
+        state: '{{ state | default(defaults.state) }}'
+        onboot: '{{ onboot | default(defaults.onboot) }}'
