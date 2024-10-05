@@ -1,12 +1,26 @@
 ---
 - name: Remove an LXC container from Proxmox
   hosts: proxmox
+  gather_facts: false
   tasks:
+    - name: Stop LXC Container
+      proxmox:
+        vmid: '{{ vmid }}'  # Specifying on CLI with [--extra-vars "vmid=124"]
+        api_host: '{{ api_host }}'
+        api_user:  '{{ api_user }}'
+        api_password: '{{ api_password }}'
+        node: '{{ node }}'
+        state: stopped
+
+    - name: sleep
+      pause:
+        seconds: 5
+
     - name: Remove LXC Container
       proxmox:
-        vmid: 123  # Specifying Container ID
-        node: pve  # Name of Proxmox host
-        api_user: ansible_pm@pam  # Proxmox user, -u ANSIBLE_USER on command line
-        api_password: ansible  # Password in plaintext !!!
-        api_host: pve
+        vmid: '{{ vmid }}'  # Specifying on CLI with [--extra-vars "vmid=124"]
+        api_host: '{{ api_host }}'
+        api_user:  '{{ api_user }}'
+        api_password: '{{ api_password }}'
+        node: '{{ node }}'
         state: absent

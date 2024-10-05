@@ -1,0 +1,9 @@
+---
+
+vmid: 123
+cores: 2
+cpus: 2
+memory: 2048
+swap: 0
+onboot: false
+netif: '{"net0":"name=eth0,ip=192.168.0.123/24,bridge=vmbr0"}'

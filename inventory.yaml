@@ -9,3 +9,7 @@ containers:
   hosts:
     test.container:
       ansible_host: 192.168.0.123
+    duplicate.ct:
+      ansible_host: 192.168.0.124
+    bare-bones:
+      ansible_host: 192.168.0.125
