@@ -54,3 +54,7 @@ After updating `inventory.yaml` with the appropriate hosts, run
 `ANSIBLE_USER=ansible; VMID=000; ansible-playbook playbooks/remove_container.yaml -u $ANSIBLE_USER --extra-vars "vmid=$VMID"`
 - Stops and removes container with $VMID
 - Good for loops on the CLI
+
+### minimal
+`ANSIBLE_USER=ansible; VMID=000; ansible-playbook playbooks/minimal.yaml -u $ANSIBLE_USER --extra-vars "vmid=$VMID"`
+- Other variables can be specified; see `minimal.yaml` for CLI args
