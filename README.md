@@ -38,3 +38,19 @@ After updating `inventory.yaml` with the appropriate hosts, run
 
 ### Run a playbook
 `ANSIBLE_USER=ansible; ansible-playbook playbooks/create_container.yaml -u $ANSIBLE_USER`
+
+## Playbooks
+
+### create_container
+`ANSIBLE_USER=ansible; ansible-playbook playbooks/create_container.yaml -u $ANSIBLE_USER`
+- Creates containers as listed in the `containers` group in `inventory.yaml`
+- Recommend creation of a configuration file in `host_vars/<hostname>.yaml`
+    - Include an assigned `vmid` or Proxmox will grab the "next" one
+    - Include `netif` (mostly for IP address, or it will use DHCP)
+    - Additional configuration can be done against what is found in `create_containers.yaml`
+    - Default values are found in `group_vars/proxmox.yaml` under `defaults`
+
+### remove_container
+`ANSIBLE_USER=ansible; VMID=000; ansible-playbook playbooks/remove_container.yaml -u $ANSIBLE_USER --extra-vars "vmid=$VMID"`
+- Stops and removes container with $VMID
+- Good for loops on the CLI
