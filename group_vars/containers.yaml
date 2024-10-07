@@ -1,0 +1,3 @@
+---
+
+default_password: "{{ lookup('file', '../vault/default_ct_pass') }}"  # path relative to playbook

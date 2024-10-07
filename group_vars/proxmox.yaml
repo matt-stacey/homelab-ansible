@@ -1,12 +1,11 @@
 ---
 
 api_host: pve
-api_user: ansible_pm  # Proxmox user, -u ANSIBLE_USER on command line; @pam added in proxmox module calls
 api_password: "{{ lookup('file', '../vault/api_password') }}"  # path relative to playbook
 node: pve  # Name of Proxmox host
 
 defaults:
-  password: "{{ lookup('file', '../vault/default_ct_pass') }}"  # path relative to playbook
+  password: "{{ lookup('file', '../vault/root_ct_pass') }}"  # path relative to playbook
   disk: "zfs-proxmox:8"  # disk_volume key was unsuccessful
   cores: 1
   cpus: 1

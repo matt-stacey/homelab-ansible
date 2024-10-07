@@ -1,0 +1,3 @@
+---
+
+api_user: ansible_pm  # Proxmox user, -u ANSIBLE_USER on command line; @pam added in proxmox module calls
