@@ -16,6 +16,6 @@ defaults:
   searchdomain: 'site.domain'
   nameserver: '1.1.1.1,8.8.8.8'
   netif: '{"net0":"name=eth0,ip=dhcp,ip6=dhcp,bridge=vmbr0"}'
-  pubkey: "{{ lookup('file', '../vault/pubkey') }}"  # path relative to playbook
+  pubkey: "{{ lookup('file', '../vault/proxmox_pubkey') }}"  # path relative to playbook
   state: present
   onboot: true
