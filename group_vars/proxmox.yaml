@@ -1,7 +1,7 @@
 ---
 
 api_host: pve
-api_user: ansible_pm@pam  # Proxmox user, -u ANSIBLE_USER on command line
+api_user: ansible_pm  # Proxmox user, -u ANSIBLE_USER on command line; @pam added in proxmox module calls
 api_password: "{{ lookup('file', '../vault/api_password') }}"  # path relative to playbook
 node: pve  # Name of Proxmox host
 

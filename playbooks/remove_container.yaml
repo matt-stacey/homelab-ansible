@@ -7,7 +7,7 @@
       proxmox:
         vmid: '{{ vmid }}'  # Specifying on CLI with [--extra-vars "vmid=124"]
         api_host: '{{ api_host }}'
-        api_user:  '{{ api_user }}'
+        api_user:  '{{ api_user }}@pam'
         api_password: '{{ api_password }}'
         node: '{{ node }}'
         state: stopped
@@ -20,7 +20,7 @@
       proxmox:
         vmid: '{{ vmid }}'  # Specifying on CLI with [--extra-vars "vmid=124"]
         api_host: '{{ api_host }}'
-        api_user:  '{{ api_user }}'
+        api_user:  '{{ api_user }}@pam'
         api_password: '{{ api_password }}'
         node: '{{ node }}'
         state: absent
