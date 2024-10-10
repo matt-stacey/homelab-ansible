@@ -3,3 +3,17 @@
   roles:
     - ct_base
 
+- hosts: test.container
+  become: true
+  roles:
+    - test.container
+
+- hosts: duplicate.ct
+  become: true
+  roles:
+    - duplicate.ct
+
+- hosts: bare-bones
+  roles:
+    - bare-bones
+
