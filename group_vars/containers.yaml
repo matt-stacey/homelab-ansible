@@ -1,3 +1,4 @@
 ---
 
 default_password: "{{ lookup('file', '../vault/default_ct_pass') }}"  # path relative to playbook
+ansible_become_pass: "{{ lookup('file', '../vault/default_ct_pass') }}"  # path relative to playbook, breaks 'become' if the CT has a different password
