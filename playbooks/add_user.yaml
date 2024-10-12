@@ -4,7 +4,7 @@
     - name: Add user "api_user" to container(s)
       user:
         name: '{{ api_user }}'
-        password: "{{ default_password | password_hash('sha512') }}"
+        password: "{{ default_password | password_hash('sha512') }}"  # must be the hashed version
         group: sudo
         create_home: yes
         generate_ssh_key: true  # defaults to RSA key at .ssh/id_rsa
