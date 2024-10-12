@@ -31,7 +31,7 @@ After updating `inventory.yaml` with the appropriate `ansible_host` variable, ru
     - Use the GUI (Datacenter > Permissions > Users) to add the user and match the password
     - Use the GUI (Datacenter > Permissions) to give Administrator role at `/`
 - Connect your local SSH key to the Proxmox host
-    - `ANSIBLE_USER=ansible; ssh-copy-id i ~/.ssh/id_rsa.pub $ANSIBLE_USER@{host}` (subsitute the key location if needed)
+    - `ANSIBLE_USER=ansible; ssh-copy-id i ~/.ssh/id_rsa.pub $ANSIBLE_USER@{proxmox_host}` (subsitute the key location if needed)
 
 ### Run a playbook
 - `ANSIBLE_USER=ansible; ansible-playbook playbooks/minimal.yaml -u $ANSIBLE_USER --exvtra-vars "vmid=101"` to add a container
@@ -56,3 +56,8 @@ After updating `inventory.yaml` with the appropriate `ansible_host` variable, ru
 ### minimal
 `ANSIBLE_USER=ansible; VMID=000; ansible-playbook playbooks/minimal.yaml -u $ANSIBLE_USER --extra-vars "vmid=$VMID"`
 - Other variables can be specified; see `minimal.yaml` for CLI args
+
+### add_user
+`ansible-playbook playbooks/add_user.yaml -u root`
+- Must be run as root, since that is the only user by default on the container
+- Also copies your SSH key onto the container if it is located at `~/.ssh/id_rsa.pub`

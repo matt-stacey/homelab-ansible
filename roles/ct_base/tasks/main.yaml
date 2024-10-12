@@ -1,0 +1,20 @@
+---
+- name: Update apt cache, upgrade packages
+  apt:
+    update_cache: yes
+    upgrade: dist
+  become: true
+
+- name: Install required packages
+  apt:
+    name:
+      - vim
+      - sudo
+      - byobu
+      - python3
+      - software-properties-common
+      - apt-transport-https
+      - wget
+      - curl
+    state: present
+  become: true

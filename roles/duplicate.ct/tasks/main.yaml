@@ -1,0 +1,4 @@
+---
+- name: Duplicate test.container
+  include_role:
+    name: test.container
