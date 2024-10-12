@@ -1,0 +1,23 @@
+---
+- name: Configure {{ api_user }}'s authorized_keys for localhost
+  hosts: proxmox
+  remote_user: root
+  tasks:
+    - name: Set authorized key taken from local user's file
+      authorized_key:
+        user: '{{ api_user }}'
+        state: present
+        key: "{{ lookup('file', '~/.ssh/id_rsa.pub') }}"
+
+- name: Prepare localhost
+  hosts: proxmox
+  remote_user: '{{ api_user }}'
+  vars:
+    proxmox_host: 192.168.0.151
+  tasks:
+    - name: Copy {{ api_user }} pubkey to localhost vault
+      synchronize:
+        mode: pull
+        src: /home/{{ api_user }}/.ssh/id_rsa.pub
+        dest: ../vault/proxmox_pubkey  # path relative to playbook
+      delegate_to: localhost
