@@ -5,7 +5,7 @@
     - name: Create LXC Containers
       proxmox:
         api_host: '{{ api_host }}'
-        api_user: '{{ api_user }}'
+        api_user: '{{ api_user }}@pam'
         api_password: '{{ api_password }}'
         node: '{{ node }}'
         hostname: '{{ hostvars[item]["inventory_hostname"] }}'
@@ -36,7 +36,7 @@
     - name: Start container(s)
       proxmox:
         api_host: '{{ api_host }}'
-        api_user: '{{ api_user }}'
+        api_user: '{{ api_user }}@pam'
         api_password: '{{ api_password }}'
         node: '{{ node }}'
         hostname: '{{ hostvars[item.item].inventory_hostname }}'

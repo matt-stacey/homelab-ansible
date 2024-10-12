@@ -1,12 +1,11 @@
 ---
 
 api_host: pve
-api_user: ansible_pm@pam  # Proxmox user, -u ANSIBLE_USER on command line
 api_password: "{{ lookup('file', '../vault/api_password') }}"  # path relative to playbook
 node: pve  # Name of Proxmox host
 
 defaults:
-  password: "{{ lookup('file', '../vault/default_ct_pass') }}"  # path relative to playbook
+  password: "{{ lookup('file', '../vault/root_ct_pass') }}"  # path relative to playbook
   disk: "zfs-proxmox:8"  # disk_volume key was unsuccessful
   cores: 1
   cpus: 1
@@ -15,7 +14,7 @@ defaults:
   ostemplate: "zfs-proxmox:vztmpl/ubuntu-22.04-standard_22.04-1_amd64.tar.zst"
   searchdomain: 'site.domain'
   nameserver: '1.1.1.1,8.8.8.8'
-  netif: '{"net0":"name=eth0,ip=dhcp,ip6=dhcp,bridge=vmbr0"}'
-  pubkey: "{{ lookup('file', '../vault/pubkey') }}"  # path relative to playbook
+  netif: '{"net0":"name=eth0,ip=dhcp,ip6=dhcp,bridge=vmbr0,gw=192.168.0.1"}'  # gateway is required or the CTs will not have internet access
+  pubkey: "{{ lookup('file', '../vault/proxmox_pubkey') }}"  # path relative to playbook
   state: present
   onboot: true
