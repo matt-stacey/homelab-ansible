@@ -1,6 +1,6 @@
 ---
 - name: Prepare Proxmox host
-  hosts: pve
+  hosts: proxmox
   vars:
       pip_packages:
         - python3-pip
@@ -33,3 +33,14 @@
       apt:
         name: python3-requests
         state: latest
+
+- name: Prepare Proxmox user
+  hosts: proxmox
+  tasks:
+    - name: Add user "api_user" to Proxmox host
+      user:
+        name: '{{ api_user }}'
+        password: "{{ api_password | password_hash('sha512') }}"  # must be the hashed version
+        group: sudo
+        create_home: yes
+        generate_ssh_key: true  # defaults to RSA key at .ssh/id_rsa
