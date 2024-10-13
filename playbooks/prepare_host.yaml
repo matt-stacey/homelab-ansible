@@ -1,10 +1,6 @@
 ---
-- name: Prepare Proxmox host
+- name: Prepare Proxmox repositories
   hosts: proxmox
-  vars:
-      pip_packages:
-        - python3-pip
-        - build-essential
   tasks:
     - name: disable enterprise repos
       apt_repository:
@@ -14,6 +10,13 @@
       apt_repository:
         repo: 'deb http://download.proxmox.com/debian/pve bookworm pve-no-subscription'
         state: present
+
+- name: Prepare Proxmox packages
+  hosts: proxmox
+  vars:
+      pip_packages:
+        - python3-pip
+        - build-essential
     - name: Update all packages to the latest version
       apt:
         upgrade: dist
