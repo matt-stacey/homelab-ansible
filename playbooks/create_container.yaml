@@ -20,7 +20,7 @@
         searchdomain: '{{ hostvars[item].searchdomain | default(defaults.searchdomain) }}'
         nameserver: '{{ hostvars[item].nameserver | default(defaults.nameserver) }}'
         netif: '{{ hostvars[item].netif | default(defaults.netif) }}'
-        pubkey: '{{ hostvars[item].pubkey | default(defaults.pubkey) }}'
+        pubkey: '{{ hostvars[item].pubkey | default(defaults.pubkey) }}'  # default to non-root user on PVE
         state: '{{ hostvars[item].state | default(defaults.state) }}'
         onboot: '{{ hostvars[item].onboot | default(defaults.onboot) }}'
       with_items: '{{ groups["containers"] }}'  # from inventory

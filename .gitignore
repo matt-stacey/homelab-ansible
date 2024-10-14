@@ -4,3 +4,6 @@ ansible.log
 
 # Linux
 *.swp
+
+# Vault
+vault/

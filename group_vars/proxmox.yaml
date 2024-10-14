@@ -15,6 +15,6 @@ defaults:
   searchdomain: 'site.domain'
   nameserver: '1.1.1.1,8.8.8.8'
   netif: '{"net0":"name=eth0,ip=dhcp,ip6=dhcp,bridge=vmbr0,gw=192.168.0.1"}'  # gateway is required or the CTs will not have internet access
-  pubkey: "{{ lookup('file', '../vault/proxmox_pubkey') }}"  # path relative to playbook
+  pubkey: "{{ lookup('file', '../vault/proxmox_pubkey') }}"  # path relative to playbook, non-root user on PVE
   state: present
   onboot: true
