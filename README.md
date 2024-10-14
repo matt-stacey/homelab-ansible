@@ -35,6 +35,7 @@ After updating `inventory.yaml` with the appropriate `ansible_host` variable, ru
 `ansible -u root proxmox -m ping`
 
 ### Run the configuration playbook
+- Update the `api_user` field in `group_vars/all.yaml` for the non-root user on Proxmox
 - Configure the Proxmox host with `ansible-playbook playbooks/prepare_proxmox_host.yaml -u root`
     - Configures repositories
     - Updates installed packages
@@ -45,10 +46,9 @@ After updating `inventory.yaml` with the appropriate `ansible_host` variable, ru
 ### Create a non-root user on Proxmox
 - The non-root user was created when `prepare_proxmox_host.yaml` was ran
 - The non-root user must still be added via the GUI
-    - Use the GUI (Datacenter > Permissions > Users) to add the user and match the password
+    - Use the GUI (Datacenter > Permissions > Users) to add the user (with the same username from `group_vars/all.yaml`) and match the password in `api_password`
     - Use the GUI (Datacenter > Permissions) to give Administrator role at `/`
 - Connect your local SSH key to the `authorized_keys` file for the new user on the Proxmox host
-    - Update the `api_user` field in `group_vars/all.yaml` to match the username
     - Run `ansible-playbook playbooks/prepare_localhost.yaml`
     - Also copies the `api_user` public key into the vault for future container creation
 
