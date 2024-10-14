@@ -27,7 +27,7 @@ Now prepare the following:
 
 ## Configure Proxmox Host
 - To install the necessary packages and configuration on the Proxmox host (requires local SSH key to be linked to `root` on the Proxmox host)
-    - `ssh_keygen -t rsa` to generate a key; take note of where it is saved
+    - `ssh-keygen -t rsa` to generate a key; take note of where it is saved
     - `ssh-copy-id i ~/.ssh/id_rsa.pub root@{host}` (subsitute the key location if needed)
 
 ### Is the Proxmox host connected properly?
