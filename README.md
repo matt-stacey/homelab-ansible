@@ -12,6 +12,19 @@ Ansible code for a Proxmox-based Home Lab
     - `python -m pip install --upgrade pip`
     - `python -m pip install -r requirements.txt`
 
+## Your configuration
+Now prepare the following:
+    - `inventory.yaml` - under 'containers' add all of the desired containers and their IP addresses
+    - `host_vars` folder - create a yaml for each container added to inventory.yaml and include the corresponding IP address
+    - `roles` folder
+        - create a folder for each container added to inventory.yaml
+        - create a `tasks` subfolder containing main.yaml with role-specific tasks
+        - create a `defaults` subfolder containing any variables needed
+    - The `vault` folder (ignored by the repository)
+        - `api_password` - password for the api_user
+        - `root_ct_pass` - default password for the root user for containers
+        - `default_ct_pass` - default password for the api_user for containers
+
 ## Configure Proxmox Host
 - To install the necessary packages and configuration on the Proxmox host (requires local SSH key to be linked to `root` on the Proxmox host)
     - `ssh_keygen -t rsa` to generate a key; take note of where it is saved
@@ -22,16 +35,22 @@ After updating `inventory.yaml` with the appropriate `ansible_host` variable, ru
 `ansible -u root proxmox -m ping`
 
 ### Run the configuration playbook
-- Configure the Proxmox host with `ansible-playbook playbooks/prepare_host.yaml -u root`
+- Configure the Proxmox host with `ansible-playbook playbooks/prepare_proxmox_host.yaml -u root`
+    - Configures repositories
+    - Updates installed packages
+    - Installs required packages
+    - Adds a non-root user to the Proxmox host
 - It is not a bad idea to then remove the public key from `/root/.ssh/authorized_keys` on the Proxmox host
 
-### Create a user on Proxmox
-- Must be added both via the GUI and the CLI
-    - `ANSIBLE_USER=ansible; adduser $ANSIBLE_USER && usermod -aG sudo $ANSIBLE_USER && passwd $ANSIBLE_USER`
+### Create a non-root user on Proxmox
+- The non-root user was created when `prepare_proxmox_host.yaml` was ran
+- The non-root user must still be added via the GUI
     - Use the GUI (Datacenter > Permissions > Users) to add the user and match the password
     - Use the GUI (Datacenter > Permissions) to give Administrator role at `/`
-- Connect your local SSH key to the Proxmox host
-    - `ANSIBLE_USER=ansible; ssh-copy-id i ~/.ssh/id_rsa.pub $ANSIBLE_USER@{proxmox_host}` (subsitute the key location if needed)
+- Connect your local SSH key to the `authorized_keys` file for the new user on the Proxmox host
+    - Update the `api_user` field in `group_vars/all.yaml` to match the username
+    - Run `ansible-playbook playbooks/prepare_localhost.yaml`
+    - Also copies the `api_user` public key into the vault for future container creation
 
 ### Run a playbook
 - `ANSIBLE_USER=ansible; ansible-playbook playbooks/minimal.yaml -u $ANSIBLE_USER --exvtra-vars "vmid=101"` to add a container
