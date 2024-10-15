@@ -36,21 +36,20 @@ After updating `inventory.yaml` with the appropriate `ansible_host` variable, ru
 
 ### Run the configuration playbook
 - Update the `api_user` field in `group_vars/all.yaml` for the non-root user on Proxmox
-- Configure the Proxmox host with `ansible-playbook playbooks/prepare_proxmox_host.yaml -u root`
+- Configure the Proxmox host with `ansible-playbook playbooks/prepare_proxmox_host.yaml`
     - Configures repositories
     - Updates installed packages
     - Installs required packages
     - Adds a non-root user to the Proxmox host
-- It is not a bad idea to then remove the public key from `/root/.ssh/authorized_keys` on the Proxmox host
 
 ### Create a non-root user on Proxmox
 - The non-root user was created when `prepare_proxmox_host.yaml` was ran
 - The non-root user must still be added via the GUI
-    - Use the GUI (Datacenter > Permissions > Users) to add the user (with the same username from `group_vars/all.yaml`) and match the password in `api_password`
+    - Use the GUI (Datacenter > Permissions > Users) to add the user (with the same username from `group_vars/all.yaml`) and match the password in `vault/api_password`
     - Use the GUI (Datacenter > Permissions) to give Administrator role at `/`
 - Connect your local SSH key to the `authorized_keys` file for the new user on the Proxmox host
     - Run `ansible-playbook playbooks/prepare_localhost.yaml`
-    - Also copies the `api_user` public key into the vault for future container creation
+    - Also copies the `api_user` public key from the Proxmox host into the local vault for future container creation
 
 ### Run a playbook
 - `ANSIBLE_USER=ansible; ansible-playbook playbooks/minimal.yaml -u $ANSIBLE_USER --exvtra-vars "vmid=101"` to add a container
@@ -59,7 +58,7 @@ After updating `inventory.yaml` with the appropriate `ansible_host` variable, ru
 ## Playbooks
 
 ### create_container
-`ANSIBLE_USER=ansible; ansible-playbook playbooks/create_container.yaml -u $ANSIBLE_USER`
+`ansible-playbook playbooks/create_container.yaml`
 - Creates containers as listed in the `containers` group in `inventory.yaml`
 - Recommend creation of a configuration file in `host_vars/<hostname>.yaml`
     - Include an assigned `vmid` or Proxmox will grab the "next" one
@@ -68,15 +67,15 @@ After updating `inventory.yaml` with the appropriate `ansible_host` variable, ru
     - Default values are found in `group_vars/proxmox.yaml` under `defaults`
 
 ### remove_container
-`ANSIBLE_USER=ansible; VMID=000; ansible-playbook playbooks/remove_container.yaml -u $ANSIBLE_USER --extra-vars "vmid=$VMID"`
-- Stops and removes container with $VMID
+`VMID=000; ansible-playbook playbooks/remove_container.yaml --extra-vars "vmid=$VMID"`
+- Stops and removes container with `$VMID`
 - Good for loops on the CLI
 
 ### minimal
-`ANSIBLE_USER=ansible; VMID=000; ansible-playbook playbooks/minimal.yaml -u $ANSIBLE_USER --extra-vars "vmid=$VMID"`
+`VMID=000; ansible-playbook playbooks/minimal.yaml --extra-vars "vmid=$VMID"`
 - Other variables can be specified; see `minimal.yaml` for CLI args
 
 ### add_user
-`ansible-playbook playbooks/add_user.yaml -u root`
-- Must be run as root, since that is the only user by default on the container
-- Also copies your SSH key onto the container if it is located at `~/.ssh/id_rsa.pub`
+`ansible-playbook playbooks/add_user.yaml`
+- Runs as root, since that is the only user by default on the container
+- Also copies your local SSH key onto the container if it is located at `~/.ssh/id_rsa.pub`

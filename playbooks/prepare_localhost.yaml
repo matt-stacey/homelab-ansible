@@ -1,7 +1,7 @@
 ---
 - name: Configure {{ api_user }}'s authorized_keys for localhost
   hosts: proxmox
-  remote_user: root
+  remote_user: root  # the localhost SSH key is not yet authorized for spi_user
   tasks:
     - name: Set authorized key taken from local user's file
       authorized_key:
@@ -11,9 +11,7 @@
 
 - name: Prepare localhost
   hosts: proxmox
-  remote_user: '{{ api_user }}'
-  vars:
-    proxmox_host: 192.168.0.151
+  remote_user: '{{ api_user }}'  # verifies the SSH key now works
   tasks:
     - name: Copy {{ api_user }} pubkey to localhost vault
       synchronize:

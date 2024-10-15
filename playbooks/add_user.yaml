@@ -1,5 +1,6 @@
 - name: Add an initial user to new LXC containers
   hosts: containers
+  remote_user: root
   tasks:
     - name: Add user "api_user" to container(s)
       user:
