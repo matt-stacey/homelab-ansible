@@ -53,7 +53,7 @@ After updating `inventory.yaml` with the appropriate `ansible_host` variable, ru
 
 ### Run a playbook
 - `ansible-playbook playbooks/minimal.yaml --extra-vars "vmid=101"` to add a container
-- `ansible-playbook playbooks/remove_container.yaml --exvtra-vars "vmid=101"` to remove it
+- `ansible-playbook playbooks/remove_container.yaml --extra-vars "vmid=101"` to remove it
 
 ## Playbooks
 
