@@ -52,8 +52,8 @@ After updating `inventory.yaml` with the appropriate `ansible_host` variable, ru
     - Also copies the `api_user` public key from the Proxmox host into the local vault for future container creation
 
 ### Run a playbook
-- `ANSIBLE_USER=ansible; ansible-playbook playbooks/minimal.yaml -u $ANSIBLE_USER --exvtra-vars "vmid=101"` to add a container
-- `ANSIBLE_USER=ansible; ansible-playbook playbooks/remove_container.yaml -u $ANSIBLE_USER --exvtra-vars "vmid=101"` to remove it
+- `ansible-playbook playbooks/minimal.yaml --extra-vars "vmid=101"` to add a container
+- `ansible-playbook playbooks/remove_container.yaml --exvtra-vars "vmid=101"` to remove it
 
 ## Playbooks
 

@@ -19,6 +19,7 @@
       pip_packages:
         - python3-pip
         - build-essential
+  tasks:
     - name: Update all packages to the latest version
       apt:
         upgrade: dist
