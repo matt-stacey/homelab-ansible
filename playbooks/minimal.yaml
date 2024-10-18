@@ -1,6 +1,7 @@
 ---
 - name: Create new LXC container in Proxmox with minimal options
   hosts: proxmox
+  remote_user: '{{ api_user }}'
   tasks:
     - name: Create LXC Container with minimal options
       proxmox:

@@ -1,6 +1,7 @@
 ---
 - name: Prepare Proxmox repositories
   hosts: proxmox
+  remote_user: root
   tasks:
     - name: disable enterprise repos
       apt_repository:
@@ -13,10 +14,12 @@
 
 - name: Prepare Proxmox packages
   hosts: proxmox
+  remote_user: root
   vars:
       pip_packages:
         - python3-pip
         - build-essential
+  tasks:
     - name: Update all packages to the latest version
       apt:
         upgrade: dist
@@ -39,6 +42,7 @@
 
 - name: Prepare Proxmox user
   hosts: proxmox
+  remote_user: root
   tasks:
     - name: Add user "api_user" to Proxmox host
       user:

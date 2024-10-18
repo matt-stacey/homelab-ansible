@@ -1,7 +1,7 @@
 ---
 - name: Remove an LXC container from Proxmox
   hosts: proxmox
-  gather_facts: false
+  remote_user: '{{ api_user }}'
   tasks:
     - name: Stop LXC Container
       proxmox:
