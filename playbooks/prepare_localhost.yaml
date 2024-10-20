@@ -1,7 +1,7 @@
 ---
 - name: Configure {{ api_user }}'s authorized_keys for localhost
   hosts: proxmox
-  remote_user: root  # the localhost SSH key is not yet authorized for spi_user
+  remote_user: root  # the localhost SSH key is not yet authorized for api_user
   tasks:
     - name: Set authorized key taken from local user's file
       authorized_key:
