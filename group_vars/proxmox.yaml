@@ -3,6 +3,7 @@
 api_host: pve
 api_password: "{{ lookup('file', '../vault/api_password') }}"  # path relative to playbook
 node: pve  # Name of Proxmox host
+ansible_become_pass: "{{ lookup('file', '../vault/api_password') }}"  # path relative to playbook
 
 defaults:
   password: "{{ lookup('file', '../vault/root_ct_pass') }}"  # path relative to playbook
