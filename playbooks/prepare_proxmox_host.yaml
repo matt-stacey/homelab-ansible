@@ -3,18 +3,40 @@
   hosts: proxmox
   remote_user: root
   tasks:
-    - name: disable enterprise repos
+    - name: Disable enterprise repos
       apt_repository:
         repo: 'deb https://enterprise.proxmox.com/debian/pve bookworm pve-enterprise'
         state: absent
-    - name: switch to community repos
+    - name: Switch to community repos
       apt_repository:
         repo: 'deb http://download.proxmox.com/debian/pve bookworm pve-no-subscription'
         state: present
 
-- name: Prepare Proxmox packages
+- name: Prepare Proxmox user
   hosts: proxmox
   remote_user: root
+  tasks:
+    - name: Install sudo
+      apt:
+        name: sudo
+        state: latest
+    - name: Add user "api_user" to Proxmox host
+      user:
+        name: '{{ api_user }}'
+        password: "{{ api_password | password_hash('sha512') }}"  # must be the hashed version
+        group: sudo
+        create_home: yes
+        generate_ssh_key: true  # defaults to RSA key at .ssh/id_rsa
+    - name: Set authorized key taken from local user's file
+      authorized_key:
+        user: '{{ api_user }}'
+        state: present
+        key: "{{ lookup('file', '~/.ssh/id_rsa.pub') }}"
+
+- name: Prepare Proxmox packages
+  hosts: proxmox
+  remote_user: '{{ api_user }}'
+  become: true
   vars:
       pip_packages:
         - python3-pip
@@ -39,15 +61,3 @@
       apt:
         name: python3-requests
         state: latest
-
-- name: Prepare Proxmox user
-  hosts: proxmox
-  remote_user: root
-  tasks:
-    - name: Add user "api_user" to Proxmox host
-      user:
-        name: '{{ api_user }}'
-        password: "{{ api_password | password_hash('sha512') }}"  # must be the hashed version
-        group: sudo
-        create_home: yes
-        generate_ssh_key: true  # defaults to RSA key at .ssh/id_rsa
