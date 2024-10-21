@@ -1,19 +1,41 @@
 ---
+- name: Initial container configuration
+  hosts: containers
+  remote_user: root
+  tasks:
+    - name: Add user "{{ api_user }}" to container(s)
+      user:
+        name: '{{ api_user }}'
+        password: "{{ default_password | password_hash('sha512') }}"  # must be the hashed version
+        group: sudo
+        create_home: yes
+        generate_ssh_key: true  # defaults to RSA key at .ssh/id_rsa
+
+    - name: Set authorized key for "{{ api_user }}" taken from local user's file
+      authorized_key:
+        user: '{{ api_user }}'
+        state: present
+        key: "{{ lookup('file', '~/.ssh/id_rsa.pub') }}"
+
 - hosts: containers
+  remote_user: '{{ api_user }}'
   roles:
     - ct_base
 
 - hosts: test.container
+  remote_user: '{{ api_user }}'
   become: true
   roles:
     - test.container
 
 - hosts: duplicate.ct
+  remote_user: '{{ api_user }}'
   become: true
   roles:
     - duplicate.ct
 
 - hosts: bare-bones
+  remote_user: '{{ api_user }}'
   roles:
     - bare-bones
 
