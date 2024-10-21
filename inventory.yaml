@@ -5,6 +5,11 @@ proxmox:
     pve:
       ansible_host: 192.168.0.000
 
+bootstrap:
+  hosts:
+    bootstrapped_vm:
+      ansible_host: 192.168.0.000
+
 containers:
   hosts:
     test.container:

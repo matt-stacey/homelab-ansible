@@ -1,6 +1,6 @@
 ---
 - name: Create new LXC container in Proxmox
-  hosts: proxmox
+  hosts: proxmox  # can run on localhost, but why bother if it's a VM
   remote_user: '{{ api_user }}'
   tasks:
     - name: Create LXC Containers
