@@ -18,3 +18,5 @@ containers:
       ansible_host: 192.168.0.124
     bare-bones:
       ansible_host: 192.168.0.125
+    no-role:
+      ansible_host: 192.168.0.126
