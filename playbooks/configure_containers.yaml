@@ -1,10 +1,12 @@
 ---
-- hosts: containers
+- name: Configure basic container
+  hosts: containers
   remote_user: '{{ api_user }}'
   roles:
     - ct_base
 
-- hosts: test.container
+- name: Configure container specifics
+  hosts: containers
   remote_user: '{{ api_user }}'
   become: true
   roles:
