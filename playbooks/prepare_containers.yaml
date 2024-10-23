@@ -1,0 +1,27 @@
+---
+- name: Hit the LXCs once (Proxmox-specific issue)  # they return unreachable the first time they are hailed; using the PVE GUI Console counts
+  hosts: containers
+  remote_user: root
+  gather_facts: true
+  ignore_unreachable: true
+
+- name: Initial container configuration
+  hosts: containers
+  remote_user: root
+  tasks:
+    - name: Add user "{{ api_user }}" to container(s)
+      user:
+        name: '{{ api_user }}'
+        password: "{{ default_password | password_hash('sha512') }}"  # must be the hashed version
+        group: sudo
+        create_home: yes
+        generate_ssh_key: true  # defaults to RSA key at .ssh/id_rsa
+
+    - name: Set authorized key for "{{ api_user }}" taken from local user's file
+      authorized_key:
+        user: '{{ api_user }}'
+        state: present
+        key: "{{ lookup('file', '~/.ssh/id_rsa.pub') }}"
+
+- name: Persistent container configuration
+  import_playbook: configure_containers.yaml

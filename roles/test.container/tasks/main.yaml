@@ -6,20 +6,24 @@
     name: gnupg
     update_cache: yes
     state: present
+  become: true
 
 - name: Install the gpg key for nodejs LTS
   apt_key:
     url: "https://deb.nodesource.com/gpgkey/nodesource.gpg.key"
     state: present
+  become: true
 
 - name: Install the nodejs LTS repos
   apt_repository:
     repo: "deb https://deb.nodesource.com/node_{{ NODEJS_VERSION }}.x {{ ansible_distribution_release }} main"
     state: present
     update_cache: yes
+  become: true
 
 - name: Install NodeJS
   tags: nodesjs, install
   apt:
     name: nodejs
     state: latest
+  become: true
