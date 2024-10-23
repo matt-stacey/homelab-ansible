@@ -8,17 +8,10 @@
 - name: Configure container specifics
   hosts: containers
   remote_user: '{{ api_user }}'
-  become: true
-  roles:
-    - test.container
+  tasks:
+    - name: "Configure {{ inventory_hostname }} roles"
+      include_role:
+        name: "{{ inventory_hostname }}"
+      when: inventory_hostname in groups['containers'] and
+            lookup('file', '../roles/{{ inventory_hostname }}/tasks/main.yaml', errors='warn') is not none  # path relative to playbook
 
-- hosts: duplicate.ct
-  remote_user: '{{ api_user }}'
-  become: true
-  roles:
-    - duplicate.ct
-
-- hosts: bare-bones
-  remote_user: '{{ api_user }}'
-  roles:
-    - bare-bones
