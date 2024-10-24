@@ -26,6 +26,7 @@ Ansible code for a Proxmox-based Home Lab
 Add the Proxmox host to `inventory.yaml` under the `proxmox` group
 - `pve` is the node name
 - `ansible_host` is the ip address
+
 Also update the `api_user` field in `group_vars/all.yaml` for the non-root user on Proxmox
 
 ### Scenic Route
@@ -69,7 +70,7 @@ Test that your configuration works properly:
 
 ## Playbooks
 
-### create_container
+### create_containers
 `ansible-playbook playbooks/create_containers.yaml`
 - Creates containers as listed in the `containers` group in `inventory.yaml`
 - Recommend creation of a configuration file in `host_vars/<hostname>.yaml`
