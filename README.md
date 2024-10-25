@@ -27,10 +27,10 @@ Add the Proxmox host to `inventory.yaml` under the `proxmox` group
 ### Express Route
 `bash prepare_ansible_control.sh --host <Proxmox IP> [--overwrite-venv]`
 
+### Scenic Route
 ## Configure Proxmox Host
 Update the `api_user` field in `group_vars/all.yaml` for the non-root user on Proxmox
 
-### Scenic Route
 #### Is the Proxmox host connected properly?
 After updating `inventory.yaml` with the appropriate `ansible_host` variable, run
 `ansible -u root proxmox -m ping`
@@ -43,7 +43,7 @@ After updating `inventory.yaml` with the appropriate `ansible_host` variable, ru
     - Adds a non-root user to the Proxmox host
 
 ### Express Route
-`bash prepare_proxmox_host.sh`
+`bash prepare_proxmox_host.sh [-- api-user <username>]`
 
 ### Create a non-root user on Proxmox GUI
 - The non-root Linux user was created when `prepare_proxmox_host.yaml` was ran
