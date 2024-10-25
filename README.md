@@ -19,15 +19,16 @@ Ansible code for a Proxmox-based Home Lab
     - `ssh-keygen -t rsa` to generate a key; take note of where it is saved
     - `ssh-copy-id -i ~/.ssh/id_rsa.pub root@{Proxmox IP}` (subsitute the key location if needed)
 
-### Express Route
-`bash prepare_ansible_control.sh --host <Proxmox IP>`
-
-## Configure Proxmox Host
+#### Inventory update
 Add the Proxmox host to `inventory.yaml` under the `proxmox` group
 - `pve` is the node name
-- `ansible_host` is the ip address
+- `ansible_host:` is the ip address
 
-Also update the `api_user` field in `group_vars/all.yaml` for the non-root user on Proxmox
+### Express Route
+`bash prepare_ansible_control.sh --host <Proxmox IP> [--overwrite-venv]`
+
+## Configure Proxmox Host
+Update the `api_user` field in `group_vars/all.yaml` for the non-root user on Proxmox
 
 ### Scenic Route
 #### Is the Proxmox host connected properly?

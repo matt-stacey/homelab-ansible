@@ -61,3 +61,16 @@ if [ ! -f "$key_file" ]; then
 fi
 
 ssh-copy-id -i $key_file root@$host
+
+
+# Update inventory.yaml with Proxmox host
+inventory=${project_root}/inventory.yaml
+
+awk -v host="$host" '
+  /proxmox/ { proxmox_line = NR }
+  proxmox_line && NR == proxmox_line + 1 { 
+    sub(/: .*/, ": " host) 
+    proxmox_line = 0 
+  } 
+  { print }
+' "$inventory" > temp && mv temp "$inventory" && rm temp
