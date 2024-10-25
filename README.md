@@ -17,10 +17,10 @@ Ansible code for a Proxmox-based Home Lab
 #### Configure Proxmox Host SSH Trust
 - To install the necessary packages and configuration on the Proxmox host (requires local SSH key to be linked to `root` on the Proxmox host)
     - `ssh-keygen -t rsa` to generate a key; take note of where it is saved
-    - `ssh-copy-id i ~/.ssh/id_rsa.pub root@{host}` (subsitute the key location if needed)
+    - `ssh-copy-id -i ~/.ssh/id_rsa.pub root@{Proxmox IP}` (subsitute the key location if needed)
 
 ### Express Route
-`bash prepare_ansible_control.sh`
+`bash prepare_ansible_control.sh --host <Proxmox IP>`
 
 ## Configure Proxmox Host
 Add the Proxmox host to `inventory.yaml` under the `proxmox` group
