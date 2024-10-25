@@ -77,7 +77,7 @@ Next, create and configure the containers by running:
 - `ansible-playbook playbooks/prepare_containers.yaml`
 
 #### Express Route
-`bash configure_server.sh`
+`bash configure_server.sh [--remove-hosts]`
 
 ### crontab
 Use crontab on the Ansible control node
