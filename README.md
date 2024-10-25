@@ -20,7 +20,7 @@ Ansible code for a Proxmox-based Home Lab
     - `ssh-copy-id i ~/.ssh/id_rsa.pub root@{host}` (subsitute the key location if needed)
 
 ### Express Route
-`bash prepare_ansible_control_node.sh`
+`bash prepare_ansible_control.sh`
 
 ## Configure Proxmox Host
 Add the Proxmox host to `inventory.yaml` under the `proxmox` group
