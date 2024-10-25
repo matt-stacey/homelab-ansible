@@ -68,6 +68,17 @@ Test that your configuration works properly:
 - `ansible-playbook playbooks/minimal.yaml --extra-vars "vmid=101"` to add a container
 - `ansible-playbook playbooks/remove_container.yaml --extra-vars "vmid=101"` to remove it
 
+### Configure the Server
+#### Scenic Route
+It may be a good idea to remove `~/.ssh/known_hosts` to prevent SSH key collisions and MITM warnings. The alternative is to set `host_key_checking` to false in `ansible.cfg`, but that is not recommended.
+
+Next, create and configure the containers by running:
+- `ansible-playbook playbooks/create_containers.yaml`
+- `ansible-playbook playbooks/prepare_containers.yaml`
+
+#### Express Route
+`bash configure_server.sh`
+
 ## Playbooks
 
 ### create_containers
