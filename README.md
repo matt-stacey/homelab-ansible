@@ -86,6 +86,12 @@ Use crontab on the Ansible control node
 
 ## Playbooks
 
+### prepare_proxmox_host
+`ansible-playbook playbooks/prepare_proxmox_host.yaml`
+- Switches to community repos
+- Ensures `api_user` set in `group_vars/all.yaml` exists on the PVE machine
+- Installs required packages
+
 ### create_containers
 `ansible-playbook playbooks/create_containers.yaml`
 - Creates containers as listed in the `containers` group in `inventory.yaml`
@@ -103,3 +109,15 @@ Use crontab on the Ansible control node
 ### minimal
 `VMID=000; ansible-playbook playbooks/minimal.yaml --extra-vars "vmid=$VMID"`
 - Other variables can be specified; see `minimal.yaml` for CLI args
+
+### prepare_containers
+`ansible-playbook playbooks/prepare_containers.yaml`
+- Runs "gather_facts" against all containers: there is a Proxmox/Ansible issue where the containers return "unreachable" the first time they are sent instructions, so this gets that out of the way
+- Adds `api_user` to the containers
+- Calls `configure_containers.yaml`
+
+### configure_containers
+`ansible-playbook playbooks/configure_containers.yaml`
+- Assigns the role `ct_base` to all containers
+- Assigns container-specific roles by-name as defined in `roles/<name>/tasks/main.yaml`, if present
+
