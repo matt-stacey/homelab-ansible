@@ -79,6 +79,11 @@ Next, create and configure the containers by running:
 #### Express Route
 `bash configure_server.sh`
 
+### crontab
+Use crontab on the Ansible control node
+- Add `playbooks/configure_containers.yaml` to ensure regular config checks
+- TO-DO: Add a playbook to keep packages up to date
+
 ## Playbooks
 
 ### create_containers
