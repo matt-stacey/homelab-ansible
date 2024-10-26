@@ -27,8 +27,8 @@ Add the Proxmox host to `inventory.yaml` under the `proxmox` group
 ### Express Route
 `bash prepare_ansible_control.sh --host <Proxmox IP> [--overwrite-venv]`
 
-### Scenic Route
 ## Configure Proxmox Host
+### Scenic Route
 Update the `api_user` field in `group_vars/all.yaml` for the non-root user on Proxmox
 
 #### Is the Proxmox host connected properly?

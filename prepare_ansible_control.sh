@@ -24,6 +24,7 @@ done
 if [ ! $host ]; then
     echo No host given!
     echo Specify IP address of Proxmox host with '--host'
+    exit 1
 fi
 
 
