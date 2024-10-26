@@ -82,7 +82,7 @@ Next, create and configure the containers by running:
 ### crontab
 Use crontab on the Ansible control node
 - Add `playbooks/configure_containers.yaml` to ensure regular config checks
-- TO-DO: Add a playbook to keep packages up to date
+- Add `playbooks/update_containers.yaml` to keep packages up to date
 
 ## Playbooks
 
@@ -121,3 +121,6 @@ Use crontab on the Ansible control node
 - Assigns the role `ct_base` to all containers
 - Assigns container-specific roles by-name as defined in `roles/<name>/tasks/main.yaml`, if present
 
+### configure_containers
+`ansible-playbook playbooks/update_containers.yaml`
+- Uses apt to update all containers
