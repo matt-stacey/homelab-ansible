@@ -5,7 +5,7 @@ api_password: "{{ lookup('file', '../vault/api_password') }}"  # path relative t
 node: pve  # Name of Proxmox host
 ansible_become_pass: "{{ lookup('file', '../vault/api_password') }}"  # path relative to playbook
 
-defaults:
+ct_defaults:
   password: "{{ lookup('file', '../vault/root_ct_pass') }}"  # path relative to playbook
   disk: "zfs-proxmox:8"  # disk_volume key was unsuccessful
   cores: 1

@@ -11,19 +11,19 @@
         node: '{{ node }}'
         hostname: '{{ hostvars[item]["inventory_hostname"] }}'
         vmid: '{{ hostvars[item].vmid }}'  # Must be specified in host_vars/<hostname>.yaml
-        password: '{{ hostvars[item].password | default(defaults.password) }}'
-        disk: '{{ hostvars[item].disk | default(defaults.disk) }}'
-        cores: '{{ hostvars[item].cores | default(defaults.cores) }}'
-        cpus: '{{ hostvars[item].cpus | default(defaults.cpus) }}'
-        memory: '{{ hostvars[item].memory | default(defaults.memory) }}'
-        swap: '{{ hostvars[item].swap | default(defaults.swap) }}'
-        ostemplate: '{{ hostvars[item].ostemplate | default(defaults.ostemplate) }}'
-        searchdomain: '{{ hostvars[item].searchdomain | default(defaults.searchdomain) }}'
-        nameserver: '{{ hostvars[item].nameserver | default(defaults.nameserver) }}'
-        netif: '{{ hostvars[item].netif | default(defaults.netif) }}'
-        pubkey: '{{ hostvars[item].pubkey | default(defaults.pubkey) }}'  # default to non-root user on PVE
-        state: '{{ hostvars[item].state | default(defaults.state) }}'
-        onboot: '{{ hostvars[item].onboot | default(defaults.onboot) }}'
+        password: '{{ hostvars[item].password | default(ct_defaults.password) }}'
+        disk: '{{ hostvars[item].disk | default(ct_defaults.disk) }}'
+        cores: '{{ hostvars[item].cores | default(ct_defaults.cores) }}'
+        cpus: '{{ hostvars[item].cpus | default(ct_defaults.cpus) }}'
+        memory: '{{ hostvars[item].memory | default(ct_defaults.memory) }}'
+        swap: '{{ hostvars[item].swap | default(ct_defaults.swap) }}'
+        ostemplate: '{{ hostvars[item].ostemplate | default(ct_defaults.ostemplate) }}'
+        searchdomain: '{{ hostvars[item].searchdomain | default(ct_defaults.searchdomain) }}'
+        nameserver: '{{ hostvars[item].nameserver | default(ct_defaults.nameserver) }}'
+        netif: '{{ hostvars[item].netif | default(ct_defaults.netif) }}'
+        pubkey: '{{ hostvars[item].pubkey | default(ct_defaults.pubkey) }}'  # default to non-root user on PVE
+        state: '{{ hostvars[item].state | default(ct_defaults.state) }}'
+        onboot: '{{ hostvars[item].onboot | default(ct_defaults.onboot) }}'
       with_items: '{{ groups["containers"] }}'  # from inventory
       loop_control:
         pause: 5
