@@ -24,3 +24,18 @@
         api_password: '{{ api_password }}'
         node: '{{ node }}'
         state: absent
+
+
+    - name: Start|Stop|Remove VM
+      community.general.proxmox_kvm:
+        api_user: root@pam
+        api_password: secret
+        api_host: helldorado
+        name: spynal
+        node: sabrewulf
+        state: started
+        ----
+        state: stopped
+        force: true
+        ----
+        state: absent
