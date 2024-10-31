@@ -83,6 +83,7 @@ Next, create and configure the containers by running:
 Use crontab on the Ansible control node
 - Add `playbooks/configure_containers.yaml` to ensure regular config checks
 - Add `playbooks/update_containers.yaml` to keep packages up to date
+- Add `playbooks/restart_container.yaml` with VMIDs to regularly restart the containers
 
 ## Playbooks
 
