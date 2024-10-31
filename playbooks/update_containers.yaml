@@ -1,0 +1,10 @@
+---
+- name: Update container packages
+  hosts: containers
+  remote_user: "{{ api_user }}"
+  tasks:
+    - name: Update apt cache, upgrade packages
+      apt:
+        update_cache: yes
+        upgrade: dist
+      become: true
