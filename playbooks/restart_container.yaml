@@ -1,0 +1,17 @@
+---
+- name: Restart an LXC container
+  hosts: proxmox
+  remote_user: '{{ api_user }}'
+  tasks:
+    - name: Restart LXC Container
+      proxmox:
+        vmid: '{{ vmid }}'  # Specifying on CLI with [--extra-vars "vmid=124"]
+        api_host: '{{ api_host }}'
+        api_user:  '{{ api_user }}@pam'
+        api_password: '{{ api_password }}'
+        node: '{{ node }}'
+        state: restarted
+
+    - name: sleep
+      pause:
+        seconds: 5
