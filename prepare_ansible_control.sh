@@ -9,6 +9,7 @@ while (( $# )); do
             overwrite_venv=1
             ;;
         --host)
+            shift
             host=$1
             ;;
         --*)
@@ -24,13 +25,13 @@ done
 if [ ! $host ]; then
     echo No host given!
     echo Specify IP address of Proxmox host with '--host'
-    exit 1
+    return
 fi
 
 
 # Install Required Packages
-apt update
-apt install python3 python3-venv
+sudo apt update
+sudo apt install python3 # python3-venv
 
 
 # Set Up Variables
@@ -59,19 +60,13 @@ key_file=~/.ssh/id_rsa.pub
 
 if [ ! -f "$key_file" ]; then
     ssh-keygen -t rsa
+else
+    echo "SSH public key exists at $key_file; continuing"
 fi
 
-ssh-copy-id -i $key_file root@$host
+ssh-copy-id -i $key_file "root@$host"
 
 
 # Update inventory.yaml with Proxmox host
 inventory=${project_root}/inventory.yaml
-
-awk -v host="$host" '
-  /proxmox/ { proxmox_line = NR }
-  proxmox_line && NR == proxmox_line + 1 { 
-    sub(/: .*/, ": " host) 
-    proxmox_line = 0 
-  } 
-  { print }
-' "$inventory" > temp && mv temp "$inventory" && rm temp
+python update_proxmox_host.py $inventory $host
