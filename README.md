@@ -25,7 +25,7 @@ Add the Proxmox host to `inventory.yaml` under the `proxmox` group
 - `ansible_host:` is the ip address
 
 ### Express Route
-`bash prepare_ansible_control.sh --host <Proxmox IP> [--overwrite-venv]`
+`source prepare_ansible_control.sh --host <Proxmox IP> [--overwrite-venv]`
 
 ## Configure Proxmox Host
 ### Scenic Route
