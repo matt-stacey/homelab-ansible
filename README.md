@@ -17,19 +17,20 @@ Ansible code for a Proxmox-based Home Lab
 #### Configure Proxmox Host SSH Trust
 - To install the necessary packages and configuration on the Proxmox host (requires local SSH key to be linked to `root` on the Proxmox host)
     - `ssh-keygen -t rsa` to generate a key; take note of where it is saved
-    - `ssh-copy-id i ~/.ssh/id_rsa.pub root@{host}` (subsitute the key location if needed)
+    - `ssh-copy-id -i ~/.ssh/id_rsa.pub root@{Proxmox IP}` (subsitute the key location if needed)
 
-### Express Route
-`bash prepare_ansible_control.sh`
-
-## Configure Proxmox Host
+#### Inventory update
 Add the Proxmox host to `inventory.yaml` under the `proxmox` group
 - `pve` is the node name
-- `ansible_host` is the ip address
+- `ansible_host:` is the ip address
 
-Also update the `api_user` field in `group_vars/all.yaml` for the non-root user on Proxmox
+### Express Route
+`source prepare_ansible_control.sh --host <Proxmox IP> [--overwrite-venv]`
 
+## Configure Proxmox Host
 ### Scenic Route
+Update the `api_user` field in `group_vars/all.yaml` for the non-root user on Proxmox
+
 #### Is the Proxmox host connected properly?
 After updating `inventory.yaml` with the appropriate `ansible_host` variable, run
 `ansible -u root proxmox -m ping`
@@ -42,7 +43,7 @@ After updating `inventory.yaml` with the appropriate `ansible_host` variable, ru
     - Adds a non-root user to the Proxmox host
 
 ### Express Route
-`bash prepare_proxmox_host.sh`
+`bash prepare_proxmox_host.sh [-- api-user <username>]`
 
 ### Create a non-root user on Proxmox GUI
 - The non-root Linux user was created when `prepare_proxmox_host.yaml` was ran
@@ -77,7 +78,7 @@ Next, create and configure the containers by running:
 - `ansible-playbook playbooks/prepare_containers.yaml`
 
 #### Express Route
-`bash configure_server.sh`
+`bash configure_server.sh [--remove-hosts]`
 
 ### crontab
 Use crontab on the Ansible control node
