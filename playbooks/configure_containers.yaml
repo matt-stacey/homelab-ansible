@@ -12,6 +12,7 @@
     - name: "Configure {{ inventory_hostname }} roles"
       include_role:
         name: "{{ inventory_hostname }}"
+      # the "when" throws a warning due to the jinja2 templating delimiters in the conditioner
+      # errors='warn' so that the roles are not required (ie not found and then skipped)
       when: inventory_hostname in groups['containers'] and
             lookup('file', '../roles/{{ inventory_hostname }}/tasks/main.yaml', errors='warn') is not none  # path relative to playbook
-
