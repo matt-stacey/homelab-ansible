@@ -1,0 +1,68 @@
+---
+- name: Create new VM in Proxmox
+  hosts: proxmox
+  remote_user: '{{ api_user }}'
+  tasks:
+    - name: Create VM
+      proxmox_kvm:
+        api_host: '{{ api_host }}'
+        api_user: '{{ api_user }}@pam'
+        api_password: '{{ api_password }}'
+        node: '{{ node }}'
+        name: spynal
+        vmid: 100
+        bios: ovmf  # 
+        efidisk0:  # efi disk, equires bios=ovmf to be set
+          storage: VMs_LVM_thin
+          format: raw
+          efitype: 4m
+          pre_enrolled_keys: false  # Secure Boot disabled by default, 1 to enable
+        virtio:  # virto hard disk
+          virtio0: 'VMs_LVM:10'
+          virtio1: 'VMs:2,format=qcow2'
+          virtio2: 'VMs:5,format=raw'
+        sata:  # 10GB SATA disk
+          sata0: 'VMs_LVM:10,format=raw'
+        cores: 4
+        vcpus: 2
+        memory: 2048 # memory size, MB int
+        balloon: 8192  # balloon RAM, MB int
+        #OS?
+        searchdomains: 'mydomain.internal'
+        nameservers:
+          - '1.1.1.1'
+          - '8.8.8.8'
+        net:  # network interface options
+          net0: 'virtio,bridge=vmbr1,rate=200'
+          net1: 'e1000,bridge=vmbr2'
+        ipconfig:
+          ipconfig0: 'ip=192.168.1.1/24,gw=192.168.1.1'
+        sshkeys: 'ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAILJkVm98B71lD5XHfihwcYHE9TVpsJmK1vR1JcaU82L+'
+        agent: true  # QEMU agent
+        statr: present
+        onboot: true  # start with PVE
+      with_items: '{{ groups["containers"] }}'  # from inventory
+      loop_control:
+        pause: 5
+      register: created_vms
+
+    - name: sleep
+      pause:
+        seconds: 10
+      when: created_vms.changed
+
+    - name: Start VM(s)
+      proxmox:
+        api_host: '{{ api_host }}'
+        api_user: '{{ api_user }}@pam'
+        api_password: '{{ api_password }}'
+        node: '{{ node }}'
+        hostname: '{{ hostvars[item.item].inventory_hostname }}'
+        state: 'started'
+      with_items: '{{ created_vms.results }}'
+      when: created_vms.changed
+
+    - name: sleep
+      pause:
+        seconds: 10
+      when: created_vms.changed
