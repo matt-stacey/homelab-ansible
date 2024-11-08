@@ -3,25 +3,15 @@
 proxmox:
   hosts:
     pve:
-      ansible_host: 192.168.0.000
+      ansible_host: 192.168.0.151
 
 bootstrap:
   hosts:
     bootstrapped-vm:
-      ansible_host: 192.168.0.000
+      ansible_host: 192.168.0.236
 
 containers:
   hosts:
-    test.container:
-      ansible_host: 192.168.0.123
-    duplicate.ct:
-      ansible_host: 192.168.0.124
-    bare-bones:
-      ansible_host: 192.168.0.125
-    no-role:
-      ansible_host: 192.168.0.126
 
 virtual_machines:
   hosts:
-    test.vm:
-      ansible_host: 192.168.0.131
