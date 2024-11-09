@@ -24,6 +24,12 @@ Add the Proxmox host to `inventory.yaml` under the `proxmox` group
 - `pve` is the node name
 - `ansible_host:` is the ip address
 
+#### Future Changes
+If the Proxmox host changes in the future:
+- Update the IP address at `pve > Network > vmbr0` in the Proxmox GUI
+- Update `/etc/network/interfaces` (should be done by the GUI update)
+- Update `/etc/hosts`
+
 ### Express Route
 `source prepare_ansible_control.sh --host <Proxmox IP> [--overwrite-venv]`
 

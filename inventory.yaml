@@ -13,5 +13,5 @@ bootstrap:
 containers:
   hosts:
 
-virtual-machines:
+virtual_machines:
   hosts:
