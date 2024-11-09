@@ -1,4 +1,0 @@
----
-# https://github.com/Dilden/Ansible-Proxmox-Automation/blob/master/roles/nodejs/defaults/main.yml
-NODEJS_VERSION: "18"
-ansible_distribution_release: "focal"
