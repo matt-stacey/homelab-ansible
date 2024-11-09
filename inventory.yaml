@@ -21,7 +21,7 @@ containers:
     no-role:
       ansible_host: 192.168.0.126
 
-virtual-machines:
+virtual_machines:
   hosts:
     test.vm:
       ansible_host: 192.168.0.131
