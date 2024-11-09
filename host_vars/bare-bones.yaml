@@ -1,4 +1,0 @@
----
-
-vmid: 125
-#netif: '{"net0":"name=eth0,ip=192.168.0.125/24,bridge=vmbr0"}'
