@@ -3,12 +3,12 @@
 proxmox:
   hosts:
     pve:
-      ansible_host: 192.168.0.151
+      ansible_host: 192.168.0.107
 
 bootstrap:
   hosts:
     bootstrapped-vm:
-      ansible_host: 192.168.0.236
+      ansible_host: 192.168.0.108
 
 containers:
   hosts:
