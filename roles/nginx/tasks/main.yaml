@@ -1,0 +1,18 @@
+---
+- name: Install nginx
+  apt:
+    name: nginx
+    state: present
+  become: true
+
+- name: Configure reverse proxy
+  copy:
+    src: homelab.conf
+    dest: /etc/nginx/sites-available/default
+  become: true
+
+- name: Restart nginx service
+  service:
+    name: nginx
+    state: restarted
+  become: true
