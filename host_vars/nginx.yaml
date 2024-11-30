@@ -1,8 +1,10 @@
 ---
+vars:
+  id_number: 170
 
-vmid: 170
+vmid: '{{ vars.id_number }}'
 cores: 2
 cpus: 1
 memory: 512
 swap: 512
-netif: '{"net0":"name=eth0,ip=192.168.0.170/24,bridge=vmbr0,gw=192.168.0.1"}'
+netif: '{"net0":"name=eth0,ip=192.168.0.{{ vars.id_number }}/24,bridge=vmbr0,gw=192.168.0.1"}'
