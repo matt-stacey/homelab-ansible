@@ -16,3 +16,6 @@
     name: nginx
     state: restarted
   become: true
+
+- name: Generate certificates with Let's Encrypt
+  include_tasks: letsencrypt.yaml

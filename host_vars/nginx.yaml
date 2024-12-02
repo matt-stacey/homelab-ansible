@@ -8,3 +8,16 @@ cpus: 1
 memory: 512
 swap: 512
 netif: '{"net0":"name=eth0,ip=192.168.0.{{ vars.id_number }}/24,bridge=vmbr0,gw=192.168.0.1"}'
+
+lets_encrypt:
+  acme_challenge_type: http-01
+  acme_directory: https://acme-v02.api.letsencrypt.org/directory
+  acme_version: 2
+  acme_email: mbstac@keemail.me
+  letsencrypt_dir: /etc/letsencrypt
+  letsencrypt_keys_dir: /etc/letsencrypt/keys
+  letsencrypt_csrs_dir: /etc/letsencrypt/csrs
+  letsencrypt_certs_dir: /etc/letsencrypt/certs
+  letsencrypt_account_dir: /etc/letsencrypt/account
+  letsencrypt_account_key: /etc/letsencrypt/account/account.key
+  domain_name: m086354-homelab.duckdns.org

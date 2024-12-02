@@ -1,0 +1,87 @@
+---
+- name: Install certbot
+  apt:
+    name:
+      - nginx
+      - certbot
+    state: present
+  become: true
+
+# https://www.digitalocean.com/community/tutorials/how-to-acquire-a-let-s-encrypt-certificate-using-ansible-on-ubuntu-18-04
+- name: Create required directories in /etc/letsencrypt
+  file:
+    path: '{{ item }}'
+    state: directory
+    owner: root
+    group: root
+    mode: u=rwx,g=x,o=x
+  become: true
+  with_items:
+  - '{{ lets_encrypt.letsencrypt_keys_dir }}'
+  - '{{ lets_encrypt.letsencrypt_csrs_dir }}'
+  - '{{ lets_encrypt.letsencrypt_certs_dir }}'
+  - '{{ lets_encrypt.letsencrypt_account_dir }}'
+
+- name: Generate a Let's Encrypt account key
+  shell: "if [ ! -f {{ lets_encrypt.letsencrypt_account_key }} ]; then openssl genrsa 4096 | sudo tee {{ lets_encrypt.letsencrypt_account_key }}; fi"
+  become: true
+
+- name: Generate Let's Encrypt private key
+  shell: "openssl genrsa 4096 | sudo tee {{ lets_encrypt.letsencrypt_keys_dir }}/{{ lets_encrypt.domain_name }}.key"
+  become: true
+
+- name: Generate Let's Encrypt CSR
+  shell: "openssl req -new -sha256 -key {{ lets_encrypt.letsencrypt_keys_dir }}/{{ lets_encrypt.domain_name }}.key -subj \"/CN={{ lets_encrypt.domain_name }}\" -reqexts SAN -config <(cat /etc/ssl/openssl.cnf <(printf \"\n[SAN]\nsubjectAltName=DNS:{{ lets_encrypt.domain_name }}\")) | sudo tee {{ lets_encrypt.letsencrypt_csrs_dir }}/{{ lets_encrypt.domain_name }}.csr"
+  become: true
+  args:
+    executable: /bin/bash
+
+- name: Begin Let's Encrypt challenges
+  acme_certificate:
+    acme_directory: '{{ lets_encrypt.acme_directory }}'
+    acme_version: '{{ lets_encrypt.acme_version }}'
+    account_key_src: '{{ lets_encrypt.letsencrypt_account_key }}'
+    account_email: '{{ lets_encrypt.acme_email }}'
+    terms_agreed: 1
+    challenge: '{{ lets_encrypt.acme_challenge_type }}'
+    csr: '{{ lets_encrypt.letsencrypt_csrs_dir }}/{{ lets_encrypt.domain_name }}.csr'
+    dest: '{{ lets_encrypt.letsencrypt_certs_dir }}/{{ lets_encrypt.domain_name }}.crt'
+    fullchain_dest: '{{ lets_encrypt.letsencrypt_certs_dir }}/fullchain_{{ lets_encrypt.domain_name }}.crt'
+    remaining_days: 91
+  become: true
+  register: acme_challenge_m086354
+
+- name: Create .well-known/acme-challenge directory
+  file:
+    path: /var/www/html/.well-known/acme-challenge
+    state: directory
+    owner: root
+    group: root
+    mode: u=rwx,g=rx,o=rx
+  become: true
+
+- name: Implement http-01 challenge files
+  copy:
+    content: "{{ acme_challenge_m086354['challenge_data'][item]['http-01']['resource_value'] }}"
+    dest: "/var/www/html/{{ acme_challenge_m086354['challenge_data'][item]['http-01']['resource'] }}"
+    owner: root
+    group: root
+    mode: u=rw,g=r,o=r
+  become: true
+  with_items:
+  - '{{ lets_encrypt.domain_name }}'
+#  - 'www.{{ lets_encrypt.domain_name }}'
+
+- name: Complete Let's Encrypt challenges
+  acme_certificate:
+    acme_directory: '{{ lets_encrypt.acme_directory }}'
+    acme_version: '{{ lets_encrypt.acme_version }}'
+    account_key_src: '{{ lets_encrypt.letsencrypt_account_key }}'
+    account_email: '{{ lets_encrypt.acme_email }}'
+    challenge: '{{ lets_encrypt.acme_challenge_type }}'
+    csr: '{{ lets_encrypt.letsencrypt_csrs_dir }}/{{ lets_encrypt.domain_name }}.csr'
+    dest: '{{ lets_encrypt.letsencrypt_certs_dir }}/{{ lets_encrypt.domain_name }}.crt'
+    chain_dest: '{{ lets_encrypt.letsencrypt_certs_dir }}/chain_{{ lets_encrypt.domain_name }}.crt'
+    fullchain_dest: '{{ lets_encrypt.letsencrypt_certs_dir }}/fullchain_{{ lets_encrypt.domain_name }}'
+    data: '{{ acme_challenge_m086354 }}'
+  become: true
